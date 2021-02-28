@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">E Commerce demo</string>
+
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="sign_in">Sign In</string>
+    <string name="facebook_sign">Sign In with Facebook</string>
+    <string name="google_sign_in">Sign In with Google</string>
 </resources>

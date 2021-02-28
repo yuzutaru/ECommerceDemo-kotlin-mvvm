@@ -5,3 +5,5 @@ package com.yuzu.ecom.utils
  */
 
 const val TIMEOUT_HTTP: String = "60"
+
+const val BASE_URL = "https://private-4639ce-ecommerce56.apiary-mock.com/"

@@ -125,37 +125,48 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/facebook"
+                    <FrameLayout
+                        android:id="@+id/facebook_frame"
                         android:layout_width="match_parent"
-                        android:layout_height="34dp"
-                        android:background="@drawable/btn_facebook"
-                        android:gravity="center"
+                        android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@+id/remember_sign_layout"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="40dp"
                         android:layout_marginHorizontal="60dp">
 
-                        <ImageView
-                            android:id="@+id/f"
-                            android:layout_width="34dp"
-                            android:layout_height="34dp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_facebook"
-                            android:layout_centerVertical="true"/>
-
-                        <TextView
+                        <com.facebook.login.widget.LoginButton
+                            android:id="@+id/facebook"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            android:text="@string/facebook_sign"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/f"
-                            android:layout_toEndOf="@+id/f" />
-                    </RelativeLayout>
+                            android:visibility="gone" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="34dp"
+                            android:background="@drawable/btn_facebook"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/f"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_facebook"
+                                android:layout_centerVertical="true"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:text="@string/facebook_sign"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/f"
+                                android:layout_toEndOf="@+id/f" />
+                        </RelativeLayout>
+                    </FrameLayout>
 
                     <RelativeLayout
                         android:id="@+id/google"
@@ -163,7 +174,7 @@
                         android:layout_height="34dp"
                         android:background="@drawable/btn_google"
                         android:gravity="center"
-                        app:layout_constraintTop_toBottomOf="@+id/facebook"
+                        app:layout_constraintTop_toBottomOf="@+id/facebook_frame"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="20dp"
@@ -193,6 +204,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

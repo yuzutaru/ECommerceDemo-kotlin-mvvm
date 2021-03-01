@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">E Commerce demo</string>
+    <string name="facebook_app_id">1099699280517263</string>
+    <string name="fb_login_protocol_scheme">70e16d11db1cfc25028ca747fec5297e</string>
 
     <string name="login">Login</string>
     <string name="username">Username</string>

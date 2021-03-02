@@ -1,11 +1,12 @@
 package com.yuzu.ecom.viewmodel
 
 import android.app.Application
-import android.content.Intent
-import android.view.KeyEvent
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.yuzu.ecom.view.activity.LoginActivity
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.yuzu.ecom.view.activity.MainActivity
 
 /**
@@ -15,4 +16,14 @@ import com.yuzu.ecom.view.activity.MainActivity
 class MainMenuViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "MainMenu"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    fun gSignOut(activity: MainActivity, googleSignInClient: GoogleSignInClient) {
+        googleSignInClient.signOut()
+            .addOnCompleteListener(activity, object : OnCompleteListener<Void> {
+                override fun onComplete(p0: Task<Void>) {
+                    Log.d(LOG_TAG, "google signedOut")
+                }
+            })
+
+    }
 }

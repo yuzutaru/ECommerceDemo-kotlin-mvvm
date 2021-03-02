@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.facebook.*
+import com.facebook.login.LoginBehavior
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
@@ -36,6 +37,7 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
     fun isLoginDataLive(): LiveData<Boolean> = isLoginSuccess
 
     fun facebook(callbackManager: CallbackManager, facebook: LoginButton) {
+        facebook.setLoginBehavior(LoginBehavior.WEB_ONLY);
         facebook.setPermissions("email", "public_profile")
         facebook.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {

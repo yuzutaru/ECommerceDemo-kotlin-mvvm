@@ -3,26 +3,23 @@ package com.yuzu.ecom.view.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.FacebookSdk
-import com.facebook.login.LoginBehavior
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.yuzu.ecom.databinding.FragmentLoginBinding
+import com.yuzu.ecom.utils.GOOGLE_REQUEST_ID_TOKEN
 import com.yuzu.ecom.view.activity.LoginActivity
 import com.yuzu.ecom.viewmodel.LoginViewModel
-import java.util.*
 
 /**
  * Created by Yustar Pramudana on 28/02/2021
@@ -35,6 +32,9 @@ class LoginFragment: Fragment() {
 
     private lateinit var auth: FirebaseAuth
     var callbackManager: CallbackManager? = null
+
+    private lateinit var gso: GoogleSignInOptions
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -56,10 +56,21 @@ class LoginFragment: Fragment() {
         auth = Firebase.auth
         fbFrameOnClick()
         fbLoginOnClick()
+        gLoginOnClick()
 
+        //Facebook login setup
         callbackManager = CallbackManager.Factory.create()
         binding.facebook.fragment = this
         viewModel.facebook(callbackManager!!, binding.facebook)
+
+        //Google login setup
+        gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(GOOGLE_REQUEST_ID_TOKEN)
+                .requestEmail()
+                .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
         viewModel.loginResultDataLive().observe(viewLifecycleOwner, {viewModel.signCredential(activity as LoginActivity, requireContext(), auth, it.accessToken)})
     }
@@ -76,10 +87,16 @@ class LoginFragment: Fragment() {
         }
     }
 
+    private fun gLoginOnClick() {
+        binding.google.setOnClickListener {
+            var signInIntent: Intent = mGoogleSignInClient.signInIntent
+            startActivityForResult(signInIntent, 101)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        // Pass the activity result back to the Facebook SDK
-        callbackManager?.onActivityResult(requestCode, resultCode, data)
+        Log.e(LOG_TAG, "masuk sini")
+        viewModel.checkRequestCode((activity as LoginActivity), callbackManager, requestCode, resultCode, data)
     }
 }

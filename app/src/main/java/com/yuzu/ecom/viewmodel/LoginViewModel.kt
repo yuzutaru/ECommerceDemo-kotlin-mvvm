@@ -2,20 +2,25 @@ package com.yuzu.ecom.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.facebook.*
-import com.facebook.login.LoginBehavior
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.yuzu.ecom.view.activity.LoginActivity
 import java.util.*
+
 
 /**
  * Created by Yustar Pramudana on 28/02/2021
@@ -77,4 +82,50 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
         } else
             LoginManager.getInstance(). logInWithReadPermissions(activity, Arrays.asList("email", "public_profile"))
     }
+
+    fun checkRequestCode(activity: LoginActivity, callbackManager: CallbackManager?, requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 101) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                Log.e(LOG_TAG, "masuk sini")
+                val account = task.getResult(ApiException::class.java)
+
+                // Signed in successfully, show authenticated UI.
+                Log.e(LOG_TAG, "GOOGLE LOGIN SUCCESS = ${account!!.account}")
+                Toast.makeText(activity, "google Login success = $account", Toast.LENGTH_LONG).show()
+
+            } catch (e: ApiException) {
+                // The ApiException status code indicates the detailed failure reason.
+                // Please refer to the GoogleSignInStatusCodes class reference for more information.
+                Log.w(LOG_TAG, "signInResult:failed code=" + e.statusCode)
+            }
+
+
+        } else {
+            // Pass the activity result back to the Facebook SDK
+            callbackManager?.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    /*private fun firebaseAuth(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(LOG_TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    // ...
+                    Snackbar.make(view, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+
+                // ...
+            }
+
+    }*/
 }

@@ -93,6 +93,9 @@ dependencies {
     //Facebook login
     implementation "com.facebook.android:facebook-login:$facebook_version"
 
+    //Google login
+    implementation "com.google.android.gms:play-services-auth:$googleAuth_version"
+
     //Firebase Google
     implementation platform("com.google.firebase:firebase-bom:$firebase_version")
     implementation "com.google.firebase:firebase-analytics-ktx"

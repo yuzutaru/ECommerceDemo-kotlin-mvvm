@@ -3,6 +3,11 @@
     <string name="facebook_app_id">1099699280517263</string>
     <string name="fb_login_protocol_scheme">70e16d11db1cfc25028ca747fec5297e</string>
 
+    <!-- String Error Message -->
+    <string name="no_connection">No internet connection</string>
+    <string name="general_error">General error</string>
+
+    <!-- String related to Login Menu -->
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -10,4 +15,17 @@
     <string name="sign_in">Sign In</string>
     <string name="facebook_sign">Sign In with Facebook</string>
     <string name="google_sign_in">Sign In with Google</string>
+
+    <!-- String related to Main Menu -->
+    <string-array
+        name="tab_main_menu">
+        <item>Home</item>
+        <item>Feed</item>
+        <item>Chart</item>
+        <item>Profile</item>
+    </string-array>
+
+    <!-- String related to Home Menu -->
+    <string name="search_icon">Search Icon</string>
+
 </resources>

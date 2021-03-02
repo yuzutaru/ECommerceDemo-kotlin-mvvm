@@ -1,6 +1,6 @@
 package com.yuzu.ecom.model.repository
 
-import com.yuzu.ecom.model.data.HomeData
+import com.yuzu.ecom.model.data.Home
 import io.reactivex.Single
 
 /**
@@ -8,5 +8,5 @@ import io.reactivex.Single
  */
 
 interface HomeRepository {
-    fun home(): Single<HomeData>
+    fun home(): Single<List<Home>>
 }

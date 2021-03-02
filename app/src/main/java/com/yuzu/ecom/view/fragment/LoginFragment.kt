@@ -102,7 +102,7 @@ class LoginFragment: Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        viewModel.checkRequestCode((activity as LoginActivity), callbackManager, requestCode, resultCode, data)
+        viewModel.checkRequestCode(callbackManager, requestCode, resultCode, data)
     }
 
     private fun onBackPressed() {

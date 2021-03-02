@@ -74,7 +74,7 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
         LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("email", "public_profile"))
     }
 
-    fun checkRequestCode(activity: LoginActivity, callbackManager: CallbackManager?, requestCode: Int, resultCode: Int, data: Intent?) {
+    fun checkRequestCode(callbackManager: CallbackManager?, requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 101) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {

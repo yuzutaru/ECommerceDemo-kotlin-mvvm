@@ -1,7 +1,6 @@
 package com.yuzu.ecom.viewmodel
 
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -14,9 +13,12 @@ import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.*
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.yuzu.ecom.view.activity.LoginActivity
+import com.yuzu.ecom.view.activity.MainActivity
 import java.util.*
 
 
@@ -28,8 +30,14 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "Login"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    private val loginResult = MutableLiveData<LoginResult>()
-    fun loginResultDataLive(): LiveData<LoginResult> =  loginResult
+    private val fbLoginResult = MutableLiveData<LoginResult>()
+    fun fbLoginDataLive(): LiveData<LoginResult> =  fbLoginResult
+
+    private val gLoginResult = MutableLiveData<String>()
+    fun gLoginDataLive(): LiveData<String> =  gLoginResult
+
+    private val isLoginSuccess = MutableLiveData<Boolean>()
+    fun isLoginDataLive(): LiveData<Boolean> = isLoginSuccess
 
     fun facebook(callbackManager: CallbackManager, facebook: LoginButton) {
         facebook.setPermissions("email", "public_profile")
@@ -37,7 +45,13 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
             override fun onSuccess(result: LoginResult?) {
                 if (result != null) {
                     Log.e(LOG_TAG, "result = ${result.accessToken}")
-                    loginResult.value = result
+
+                    if (result.accessToken != null && !result.accessToken.isExpired) {
+                        isLoginSuccess.value = true
+
+                    } else {
+                        fbLoginResult.value = result
+                    }
                 }
             }
 
@@ -51,34 +65,17 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
         })
     }
 
-    fun signCredential(activity: LoginActivity, context: Context, auth: FirebaseAuth, token: AccessToken) {
+    fun fbFirebaseAuth(activity: LoginActivity, auth: FirebaseAuth, token: AccessToken) {
         val credential = FacebookAuthProvider.getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(activity) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(LOG_TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-                    Toast.makeText(activity, "Facebook Login Success: $user", Toast.LENGTH_SHORT).show()
-                    //updateUI(user)
-
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(LOG_TAG, "signInWithCredential:failure", task.exception)
-                    Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_SHORT).show()
-                    //updateUI(null)
-                }
-
-                // ...
-            }
+        unlinkFirebaseAuth(activity, auth, credential)
     }
 
     fun isFbLoggedIn(activity: LoginActivity) {
         if (Profile.getCurrentProfile() != null && AccessToken.getCurrentAccessToken() != null) {
-            LoginManager.getInstance(). logInWithReadPermissions(activity, Arrays.asList("email", "public_profile"))
+            LoginManager.getInstance().logOut()
+        }
 
-        } else
-            LoginManager.getInstance(). logInWithReadPermissions(activity, Arrays.asList("email", "public_profile"))
+        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("email", "public_profile"))
     }
 
     fun checkRequestCode(activity: LoginActivity, callbackManager: CallbackManager?, requestCode: Int, resultCode: Int, data: Intent?) {
@@ -87,14 +84,12 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
             try {
                 Log.e(LOG_TAG, "masuk sini")
                 val account = task.getResult(ApiException::class.java)
-
-                // Signed in successfully, show authenticated UI.
-                Log.e(LOG_TAG, "GOOGLE LOGIN SUCCESS = ${account!!.account}")
-                Toast.makeText(activity, "google Login success = $account", Toast.LENGTH_LONG).show()
+                if (account != null) {
+                    Log.d(LOG_TAG, "GOOGLE LOGIN SUCCESS = ${account.idToken}")
+                    gLoginResult.value = account.idToken
+                }
 
             } catch (e: ApiException) {
-                // The ApiException status code indicates the detailed failure reason.
-                // Please refer to the GoogleSignInStatusCodes class reference for more information.
                 Log.w(LOG_TAG, "signInResult:failed code=" + e.statusCode)
             }
 
@@ -105,25 +100,71 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
-    /*private fun firebaseAuth(idToken: String) {
+    fun GFirebaseAuth(activity: LoginActivity, auth: FirebaseAuth, idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(LOG_TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    // ...
-                    Snackbar.make(view, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-                    updateUI(null)
+        unlinkFirebaseAuth(activity, auth, credential)
+    }
+
+    private fun linkFirebaseAuth(activity: LoginActivity, auth: FirebaseAuth, credential: AuthCredential) {
+        if (auth.currentUser != null) {
+            auth.currentUser!!.linkWithCredential(credential)
+                .addOnCompleteListener(activity) { task ->
+                    if (task.isSuccessful) {
+                        Log.d(LOG_TAG, "linkWithCredential:success")
+                        isLoginSuccess.value = true
+
+                    } else {
+                        Log.w(LOG_TAG, "linkWithCredential:failure", task.exception)
+                        isLoginSuccess.value = false
+                    }
                 }
 
-                // ...
-            }
+        } else {
+            firebaseAuth(activity, auth, credential)
+        }
+    }
 
-    }*/
+    private fun unlinkFirebaseAuth(activity: LoginActivity, auth: FirebaseAuth, credential: AuthCredential) {
+        if (auth.currentUser != null) {
+            auth.currentUser!!.unlink(credential.provider)
+                .addOnCompleteListener(activity) { task ->
+                    if (task.isSuccessful) {
+                        firebaseAuth(activity, auth, credential)
+                    } else {
+                        Log.w(LOG_TAG, "unlinkResult:failure", task.exception)
+                        linkFirebaseAuth(activity, auth, credential)
+                    }
+                }
+
+        } else {
+            firebaseAuth(activity, auth, credential)
+        }
+    }
+
+    private fun firebaseAuth(activity: LoginActivity, auth: FirebaseAuth, credential: AuthCredential) {
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(activity) { task ->
+                if (task.isSuccessful) {
+                    Log.d(LOG_TAG, "SignInWithCredential:success")
+                    isLoginSuccess.value = true
+
+                } else {
+                    Log.w(LOG_TAG, "SignInWithCredential:failure", task.exception)
+
+                    if (task.exception is FirebaseAuthUserCollisionException) {
+                        linkFirebaseAuth(activity, auth, credential)
+                    }
+
+                    isLoginSuccess.value = false
+                }
+            }
+    }
+
+    fun goToMainMenu(activity: LoginActivity, isLoginSuccess: Boolean) {
+        if (isLoginSuccess) {
+            val intent = Intent(activity, MainActivity::class.java)
+            activity.startActivity(intent)
+            activity.finish()
+        }
+    }
 }

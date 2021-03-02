@@ -3,7 +3,6 @@ package com.yuzu.ecom.view.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +71,9 @@ class LoginFragment: Fragment() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
-        viewModel.loginResultDataLive().observe(viewLifecycleOwner, {viewModel.signCredential(activity as LoginActivity, requireContext(), auth, it.accessToken)})
+        viewModel.fbLoginDataLive().observe(viewLifecycleOwner, {viewModel.fbFirebaseAuth(activity as LoginActivity, auth, it.accessToken)})
+        viewModel.gLoginDataLive().observe(viewLifecycleOwner, {viewModel.GFirebaseAuth((activity as LoginActivity), auth, it)})
+        viewModel.isLoginDataLive().observe(viewLifecycleOwner, {viewModel.goToMainMenu((activity as LoginActivity), it)})
     }
 
     private fun fbFrameOnClick() {
@@ -96,7 +97,6 @@ class LoginFragment: Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.e(LOG_TAG, "masuk sini")
         viewModel.checkRequestCode((activity as LoginActivity), callbackManager, requestCode, resultCode, data)
     }
 }

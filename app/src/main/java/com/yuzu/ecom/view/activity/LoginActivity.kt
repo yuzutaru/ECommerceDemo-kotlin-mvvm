@@ -10,12 +10,12 @@ import com.yuzu.ecom.view.fragment.LoginFragment
 class LoginActivity: BaseViewActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(
-                    R.id.main_content,
+                    R.id.login_content,
                     LoginFragment()
                 ).commit()
         }

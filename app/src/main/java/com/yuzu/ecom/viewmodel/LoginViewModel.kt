@@ -3,7 +3,7 @@ package com.yuzu.ecom.viewmodel
 import android.app.Application
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
+import android.view.KeyEvent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,14 +13,10 @@ import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.*
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.yuzu.ecom.view.activity.LoginActivity
 import com.yuzu.ecom.view.activity.MainActivity
 import java.util.*
-
 
 /**
  * Created by Yustar Pramudana on 28/02/2021
@@ -67,7 +63,7 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
 
     fun fbFirebaseAuth(activity: LoginActivity, auth: FirebaseAuth, token: AccessToken) {
         val credential = FacebookAuthProvider.getCredential(token.token)
-        unlinkFirebaseAuth(activity, auth, credential)
+        firebaseAuth(activity, auth, credential)
     }
 
     fun isFbLoggedIn(activity: LoginActivity) {
@@ -102,7 +98,7 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
 
     fun GFirebaseAuth(activity: LoginActivity, auth: FirebaseAuth, idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        unlinkFirebaseAuth(activity, auth, credential)
+        firebaseAuth(activity, auth, credential)
     }
 
     private fun linkFirebaseAuth(activity: LoginActivity, auth: FirebaseAuth, credential: AuthCredential) {
@@ -116,23 +112,6 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
                     } else {
                         Log.w(LOG_TAG, "linkWithCredential:failure", task.exception)
                         isLoginSuccess.value = false
-                    }
-                }
-
-        } else {
-            firebaseAuth(activity, auth, credential)
-        }
-    }
-
-    private fun unlinkFirebaseAuth(activity: LoginActivity, auth: FirebaseAuth, credential: AuthCredential) {
-        if (auth.currentUser != null) {
-            auth.currentUser!!.unlink(credential.provider)
-                .addOnCompleteListener(activity) { task ->
-                    if (task.isSuccessful) {
-                        firebaseAuth(activity, auth, credential)
-                    } else {
-                        Log.w(LOG_TAG, "unlinkResult:failure", task.exception)
-                        linkFirebaseAuth(activity, auth, credential)
                     }
                 }
 

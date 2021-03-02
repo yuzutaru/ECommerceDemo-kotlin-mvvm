@@ -3,9 +3,11 @@ package com.yuzu.ecom.view.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.facebook.CallbackManager
@@ -18,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.yuzu.ecom.databinding.FragmentLoginBinding
 import com.yuzu.ecom.utils.GOOGLE_REQUEST_ID_TOKEN
 import com.yuzu.ecom.view.activity.LoginActivity
+import com.yuzu.ecom.view.activity.MainActivity
 import com.yuzu.ecom.viewmodel.LoginViewModel
 
 /**
@@ -51,6 +54,8 @@ class LoginFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        onBackPressed()
 
         auth = Firebase.auth
         fbFrameOnClick()
@@ -98,5 +103,14 @@ class LoginFragment: Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         viewModel.checkRequestCode((activity as LoginActivity), callbackManager, requestCode, resultCode, data)
+    }
+
+    private fun onBackPressed() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                (activity as LoginActivity).finish()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }

@@ -1,13 +1,8 @@
 package com.yuzu.ecom.view.activity
 
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import com.yuzu.ecom.R
 import com.yuzu.ecom.view.fragment.LoginFragment
-import java.security.MessageDigest
-
 /**
  * Created by Yustar Pramudana on 28/02/2021
  */
@@ -25,6 +20,7 @@ class LoginActivity: BaseViewActivity() {
                 ).commit()
         }
 
+        //get app hash
         /*val info = packageManager.getPackageInfo(
             "com.yuzu.ecom",
             PackageManager.GET_SIGNATURES

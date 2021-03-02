@@ -64,7 +64,7 @@ class HomeFragment: Fragment() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
-        viewModel.searchOnFocus(requireContext(), binding.search)
+        viewModel.searchOnFocus(activity as MainActivity, binding.search)
 
         viewModel.home()
         viewModel.homeDataLive().observe(viewLifecycleOwner, {viewModel.homeRes(requireContext(), resources, it)})

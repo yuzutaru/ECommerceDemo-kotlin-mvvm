@@ -21,6 +21,7 @@ import com.yuzu.ecom.model.data.Home
 import com.yuzu.ecom.model.data.HomeData
 import com.yuzu.ecom.model.repository.HomeRepository
 import com.yuzu.ecom.view.activity.MainActivity
+import com.yuzu.ecom.view.fragment.SearchFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -123,13 +124,14 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
 
     }
 
-    fun searchOnFocus(context: Context, search: EditText) {
+    fun searchOnFocus(activity: MainActivity, search: EditText) {
         search.setOnFocusChangeListener { view, b ->
             if (b) {
-                Toast.makeText(context, "Search On Focused", Toast.LENGTH_LONG).show()
+                Log.d(LOG_TAG, "seach onFocus")
+                activity.replaceFragment(R.id.main_content, SearchFragment(), null)
 
             } else {
-                Toast.makeText(context, "Search On NOT Focused", Toast.LENGTH_LONG).show()
+                //not on focus
             }
         }
     }

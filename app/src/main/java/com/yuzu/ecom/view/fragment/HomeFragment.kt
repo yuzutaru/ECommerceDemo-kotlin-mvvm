@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.yuzu.ecom.databinding.FragmentHomeBinding
 import com.yuzu.ecom.model.data.HomeData
 import com.yuzu.ecom.view.adapter.CategoryAdapter
+import com.yuzu.ecom.view.adapter.ProductAdapter
 import com.yuzu.ecom.viewmodel.HomeViewModel
 
 /**
@@ -41,10 +42,10 @@ class HomeFragment: Fragment() {
 
         viewModel.home()
         viewModel.homeDataLive().observe(viewLifecycleOwner, {viewModel.homeRes(requireContext(), resources, it)})
-        viewModel.homeResDataLive().observe(viewLifecycleOwner, {category(it)})
+        viewModel.homeResDataLive().observe(viewLifecycleOwner, {setRecycler(it)})
     }
 
-    private fun category(data: HomeData) {
+    private fun setRecycler(data: HomeData) {
         val adapter = CategoryAdapter(data)
         binding.categoryRecyclerView.adapter = adapter
         var horizontalLayout = LinearLayoutManager(
@@ -53,5 +54,9 @@ class HomeFragment: Fragment() {
             false
         )
         binding.categoryRecyclerView.layoutManager = horizontalLayout
+
+        val productAdapter = ProductAdapter(data)
+        binding.productRecyclerView.adapter = productAdapter
+        binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
     }
 }

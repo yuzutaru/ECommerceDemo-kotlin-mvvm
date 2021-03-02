@@ -4,10 +4,14 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.yuzu.ecom.ECommerceDemoApp
 import com.yuzu.ecom.R
 import com.yuzu.ecom.model.NoNetworkException
@@ -16,6 +20,7 @@ import com.yuzu.ecom.model.Status
 import com.yuzu.ecom.model.data.Home
 import com.yuzu.ecom.model.data.HomeData
 import com.yuzu.ecom.model.repository.HomeRepository
+import com.yuzu.ecom.view.activity.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -109,6 +114,23 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
             }
         } catch (e: Exception) {
             e.message?.let { Log.e(LOG_TAG, it) }
+        }
+    }
+
+    fun gSignOut(activity: MainActivity, googleSignInClient: GoogleSignInClient) {
+        googleSignInClient.signOut()
+            .addOnCompleteListener(activity) { Log.d(LOG_TAG, "google signedOut") }
+
+    }
+
+    fun searchOnFocus(context: Context, search: EditText) {
+        search.setOnFocusChangeListener { view, b ->
+            if (b) {
+                Toast.makeText(context, "Search On Focused", Toast.LENGTH_LONG).show()
+
+            } else {
+                Toast.makeText(context, "Search On NOT Focused", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

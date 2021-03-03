@@ -19,6 +19,7 @@ import com.yuzu.ecom.model.Status
 import com.yuzu.ecom.model.data.Home
 import com.yuzu.ecom.model.data.HomeData
 import com.yuzu.ecom.model.repository.HomeRepository
+import com.yuzu.ecom.model.repository.ProductDBRepository
 import com.yuzu.ecom.utils.ARGUMENT_PRODUCT_DATA
 import com.yuzu.ecom.view.activity.MainActivity
 import com.yuzu.ecom.view.fragment.SearchFragment
@@ -35,8 +36,8 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val compositeDisposable = CompositeDisposable()
-
     private val homeRepository: HomeRepository
+    private val productDBRepository: ProductDBRepository
 
     private val home = MutableLiveData<Response<List<Home>>>()
     fun homeDataLive(): LiveData<Response<List<Home>>> = home
@@ -47,6 +48,7 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
     init {
         val appComponent = ECommerceDemoApp.instance.getAppComponent()
         homeRepository = appComponent.homeRepository()
+        productDBRepository = appComponent.productDBRepository()
     }
 
     override fun onCleared() {
@@ -82,8 +84,12 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
 
             if (response.status == Status.SUCCEED) {
                 if (response.data != null) {
-                    if (!response.data.isNullOrEmpty())
+                    if (!response.data.isNullOrEmpty()) {
                         homeData.value = response.data[0].data
+                        if (homeData.value != null)
+                            if (homeData.value!!.productPromo != null)
+                                productDBRepository.insert(homeData.value!!.productPromo!!)
+                    }
                 }
 
             } else if (response.status == Status.FAILED) {

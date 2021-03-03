@@ -2,9 +2,14 @@ package com.yuzu.ecom.injection.module
 
 import android.annotation.SuppressLint
 import android.app.Application
+import androidx.room.Room
 import com.yuzu.ecom.model.api.HomeApi
+import com.yuzu.ecom.model.local.ProductDAO
+import com.yuzu.ecom.model.local.ProductDB
 import com.yuzu.ecom.model.repository.HomeRepository
 import com.yuzu.ecom.model.repository.HomeRepositoryImpl
+import com.yuzu.ecom.model.repository.ProductDBRepository
+import com.yuzu.ecom.model.repository.ProductDBRepositoryImpl
 import com.yuzu.ecom.utils.BASE_URL
 import com.yuzu.ecom.utils.TIMEOUT_HTTP
 import dagger.Module
@@ -17,6 +22,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
+import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import javax.net.ssl.HostnameVerifier
@@ -101,5 +107,24 @@ class AppModule(private val app: Application) {
     @Singleton
     fun homeRepository(api: HomeApi): HomeRepository {
         return HomeRepositoryImpl(api)
+    }
+
+    //Product ROOM
+    @Provides
+    @Singleton
+    fun productDb(): ProductDB {
+        return Room.databaseBuilder(app, ProductDB::class.java, "user.db").build()
+    }
+
+    @Provides
+    @Singleton
+    fun productDao(db: ProductDB): ProductDAO {
+        return db.productDao()
+    }
+
+    @Provides
+    @Singleton
+    open fun profileDBRepository(dao: ProductDAO, exec: Executor): ProductDBRepository {
+        return ProductDBRepositoryImpl(dao, exec)
     }
 }

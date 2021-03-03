@@ -13,7 +13,7 @@ import io.reactivex.Single
 
 @Dao
 interface ProductDAO {
-    @Query("SELECT * FROM ProductPromoData WHERE ProductPromoData.title like :search||'%'")
+    @Query("SELECT * FROM ProductPromoData WHERE ProductPromoData.title like '%'||:search||'%'")
     fun getProductBySearch(search: String): Single<List<ProductPromoData>>
 
     @Query("SELECT * FROM ProductPromoData")

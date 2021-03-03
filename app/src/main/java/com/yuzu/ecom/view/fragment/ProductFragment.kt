@@ -1,6 +1,7 @@
 package com.yuzu.ecom.view.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.yuzu.ecom.databinding.FragmentProductBinding
 import com.yuzu.ecom.model.data.ProductPromoData
 import com.yuzu.ecom.view.activity.MainActivity
 import com.yuzu.ecom.viewmodel.ProductViewModel
+
 
 /**
  * Created by Yustar Pramudana on 03/03/2021
@@ -43,6 +45,7 @@ class ProductFragment: Fragment() {
 
         loveOnClick()
         backOnClick()
+        shareOnClick()
         onBackPressed()
 
         viewModel.product(arguments)
@@ -63,6 +66,18 @@ class ProductFragment: Fragment() {
 
         binding.loved.setOnClickListener {
             viewModel.love(binding.unlove, binding.loved)
+        }
+    }
+
+    private fun shareOnClick() {
+        binding.share.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Insert Subject here")
+
+            val app_url = viewModel.product.value!!.imageUrl
+            shareIntent.putExtra(Intent.EXTRA_TEXT, app_url)
+            startActivity(Intent.createChooser(shareIntent, "Share via"))
         }
     }
 

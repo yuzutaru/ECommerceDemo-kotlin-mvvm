@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.room.Room
 import com.yuzu.ecom.model.api.HomeApi
+import com.yuzu.ecom.model.local.HistoryDAO
+import com.yuzu.ecom.model.local.HistoryDB
 import com.yuzu.ecom.model.local.ProductDAO
 import com.yuzu.ecom.model.local.ProductDB
-import com.yuzu.ecom.model.repository.HomeRepository
-import com.yuzu.ecom.model.repository.HomeRepositoryImpl
-import com.yuzu.ecom.model.repository.ProductDBRepository
-import com.yuzu.ecom.model.repository.ProductDBRepositoryImpl
+import com.yuzu.ecom.model.repository.*
 import com.yuzu.ecom.utils.BASE_URL
 import com.yuzu.ecom.utils.TIMEOUT_HTTP
 import dagger.Module
@@ -127,6 +126,25 @@ class AppModule(private val app: Application) {
     @Singleton
     open fun productDBRepositoryImpl(dao: ProductDAO, exec: Executor): ProductDBRepository {
         return ProductDBRepositoryImpl(dao, exec)
+    }
+
+    //History ROOM
+    @Provides
+    @Singleton
+    fun historyDB(): HistoryDB {
+        return Room.databaseBuilder(app, HistoryDB::class.java, "history.db").build()
+    }
+
+    @Provides
+    @Singleton
+    fun historyDAO(db: HistoryDB): HistoryDAO {
+        return db.historyDAO()
+    }
+
+    @Provides
+    @Singleton
+    open fun historyDBRepositoryImpl(dao: HistoryDAO, exec: Executor): HistoryDBRepository {
+        return HistoryDBRepositoryImpl(dao, exec)
     }
 
     @Singleton

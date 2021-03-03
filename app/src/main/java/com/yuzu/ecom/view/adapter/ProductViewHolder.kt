@@ -20,6 +20,15 @@ class ProductViewHolder(private val viewModel: HomeViewModel, view: View): Recyc
 
         binding.product.text = data[i].title
 
+        if (data[i].loved == 0) {
+            binding.unlove.visibility = View.VISIBLE
+            binding.loved.visibility = View.GONE
+
+        } else {
+            binding.unlove.visibility = View.GONE
+            binding.loved.visibility = View.VISIBLE
+        }
+
         binding.itemProduct.setOnClickListener {
             viewModel.product.value = data[i]
         }

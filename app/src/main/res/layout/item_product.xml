@@ -28,7 +28,7 @@
             android:layout_marginHorizontal="10dp"/>
 
         <ImageView
-            android:id="@+id/heart"
+            android:id="@+id/unlove"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:adjustViewBounds="true"
@@ -36,7 +36,17 @@
             app:layout_constraintBottom_toTopOf="@id/product"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="6dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+
+        <ImageView
+            android:id="@+id/loved"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_heart"
+            app:layout_constraintBottom_toTopOf="@id/product"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="6dp"
             android:layout_marginStart="10dp" />
 
         <TextView

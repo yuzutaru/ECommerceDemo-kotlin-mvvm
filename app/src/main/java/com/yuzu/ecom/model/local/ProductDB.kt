@@ -10,5 +10,5 @@ import com.yuzu.ecom.model.data.ProductPromoData
 
 @Database(entities = [ProductPromoData::class], version = 1)
 abstract class ProductDB: RoomDatabase() {
-    abstract fun productDao(): ProductDAO
+    abstract fun productDAO(): ProductDAO
 }

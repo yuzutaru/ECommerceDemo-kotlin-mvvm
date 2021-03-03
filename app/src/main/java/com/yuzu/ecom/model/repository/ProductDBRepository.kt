@@ -11,5 +11,5 @@ interface ProductDBRepository {
     fun getProductBySearch(search: String): Single<List<ProductPromoData>>
     fun getAllProduct(): Single<List<ProductPromoData>>
     fun insert(productData: ProductPromoData)
-    fun insert(uproductDataList: List<ProductPromoData>)
+    fun insert(productDataList: List<ProductPromoData>)
 }

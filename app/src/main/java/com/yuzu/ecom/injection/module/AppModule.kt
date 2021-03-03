@@ -23,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import javax.net.ssl.HostnameVerifier
@@ -112,19 +113,25 @@ class AppModule(private val app: Application) {
     //Product ROOM
     @Provides
     @Singleton
-    fun productDb(): ProductDB {
-        return Room.databaseBuilder(app, ProductDB::class.java, "user.db").build()
+    fun productDB(): ProductDB {
+        return Room.databaseBuilder(app, ProductDB::class.java, "product.db").build()
     }
 
     @Provides
     @Singleton
-    fun productDao(db: ProductDB): ProductDAO {
-        return db.productDao()
+    fun productDAO(db: ProductDB): ProductDAO {
+        return db.productDAO()
     }
 
     @Provides
     @Singleton
-    open fun profileDBRepository(dao: ProductDAO, exec: Executor): ProductDBRepository {
+    open fun productDBRepositoryImpl(dao: ProductDAO, exec: Executor): ProductDBRepository {
         return ProductDBRepositoryImpl(dao, exec)
+    }
+
+    @Singleton
+    @Provides
+    fun getExecutor(): Executor {
+        return Executors.newFixedThreadPool(2)
     }
 }

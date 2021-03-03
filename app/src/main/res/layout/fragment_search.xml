@@ -73,6 +73,10 @@
                                 android:inputType="text"
                                 android:imeOptions="actionUnspecified"
                                 style="@style/EditTextCustom"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:text="@{viewModel.search}"
                                 android:paddingHorizontal="54dp"
                                 android:layout_centerVertical="true"
                                 android:importantForAutofill="no" />
@@ -89,6 +93,18 @@
 
                     </RelativeLayout>
                 </androidx.appcompat.widget.Toolbar>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="@{safeUnbox(viewModel.loading) ? View.GONE : View.VISIBLE}"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="20dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </FrameLayout>

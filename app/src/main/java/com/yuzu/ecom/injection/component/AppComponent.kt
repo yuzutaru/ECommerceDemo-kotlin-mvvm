@@ -24,7 +24,7 @@ interface AppComponent {
     fun homeRepository(): HomeRepository
 
     //Product ROOM Data
-    fun productDb(): ProductDB
-    fun productDao(): ProductDAO
-    fun productRepository(): ProductDBRepository
+    fun productDB(): ProductDB
+    fun productDAO(): ProductDAO
+    fun productDBRepository(): ProductDBRepository
 }

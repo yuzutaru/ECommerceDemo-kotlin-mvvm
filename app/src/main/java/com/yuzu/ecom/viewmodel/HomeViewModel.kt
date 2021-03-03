@@ -6,12 +6,11 @@ import android.content.res.Resources
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.yuzu.ecom.ECommerceDemoApp
 import com.yuzu.ecom.R
 import com.yuzu.ecom.model.NoNetworkException
@@ -20,6 +19,7 @@ import com.yuzu.ecom.model.Status
 import com.yuzu.ecom.model.data.Home
 import com.yuzu.ecom.model.data.HomeData
 import com.yuzu.ecom.model.repository.HomeRepository
+import com.yuzu.ecom.utils.ARGUMENT_PRODUCT_DATA
 import com.yuzu.ecom.view.activity.MainActivity
 import com.yuzu.ecom.view.fragment.SearchFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -125,10 +125,14 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
     }
 
     fun searchOnFocus(activity: MainActivity, search: EditText) {
-        search.setOnFocusChangeListener { view, b ->
+        search.setOnFocusChangeListener { _, b ->
             if (b) {
                 Log.d(LOG_TAG, "seach onFocus")
-                activity.replaceFragment(R.id.main_content, SearchFragment(), null)
+
+                if (homeData.value != null) {
+                    val bundle = bundleOf(ARGUMENT_PRODUCT_DATA to homeData.value!!.productPromo)
+                    activity.replaceFragment(R.id.main_content, SearchFragment(), bundle)
+                }
 
             } else {
                 //not on focus

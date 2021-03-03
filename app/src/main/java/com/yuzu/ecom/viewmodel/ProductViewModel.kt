@@ -2,6 +2,8 @@ package com.yuzu.ecom.viewmodel
 
 import android.app.Application
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +24,32 @@ class ProductViewModel(app: Application): AndroidViewModel(app) {
     fun product(arguments: Bundle?) {
         if (arguments != null) {
             product.value = arguments.get(ARGUMENT_PRODUCT_DATA) as ProductPromoData?
+        }
+    }
+
+    fun love(isLove: Int?, unlove: ImageView, loved: ImageView) {
+        if (isLove != null) {
+            if (isLove == 0) {
+                unlove.visibility = View.VISIBLE
+                loved.visibility = View.GONE
+            } else {
+                unlove.visibility = View.GONE
+                loved.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    fun love(unlove: ImageView, loved: ImageView) {
+        if (unlove.visibility == View.VISIBLE) {
+            unlove.visibility = View.GONE
+        } else {
+            unlove.visibility = View.VISIBLE
+        }
+
+        if (loved.visibility == View.VISIBLE) {
+            loved.visibility = View.GONE
+        } else {
+            loved.visibility = View.VISIBLE
         }
     }
 }

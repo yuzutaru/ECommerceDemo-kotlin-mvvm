@@ -41,6 +41,7 @@ class ProductFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        loveOnClick()
         backOnClick()
         onBackPressed()
 
@@ -52,6 +53,17 @@ class ProductFragment: Fragment() {
         Glide.with(requireContext()).load(data.imageUrl).into(binding.photo)
         binding.item.text = data.title
         binding.desc.text = data.description
+        viewModel.love(data.loved, binding.unlove, binding.loved)
+    }
+
+    private fun loveOnClick() {
+        binding.unlove.setOnClickListener {
+            viewModel.love(binding.unlove, binding.loved)
+        }
+
+        binding.loved.setOnClickListener {
+            viewModel.love(binding.unlove, binding.loved)
+        }
     }
 
     private fun backOnClick() {

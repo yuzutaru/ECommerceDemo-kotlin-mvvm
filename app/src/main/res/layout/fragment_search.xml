@@ -22,12 +22,7 @@
             android:indeterminateDrawable="@drawable/progress"
             android:visibility="@{safeUnbox(viewModel.loading) ? View.VISIBLE : View.GONE}" />
 
-        <!--<ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{safeUnbox(viewModel.loading) ? View.GONE : View.VISIBLE}">-->
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -107,6 +102,5 @@
                     android:layout_marginTop="?actionBarSize"
                     android:layout_marginHorizontal="20dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        <!--</ScrollView>-->
     </FrameLayout>
 </layout>

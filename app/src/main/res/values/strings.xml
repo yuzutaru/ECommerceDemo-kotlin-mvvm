@@ -23,7 +23,7 @@
         <item>Home</item>
         <item>Feed</item>
         <item>Chart</item>
-        <item>Profile</item>
+        <item>Purchase</item>
     </string-array>
 
     <!-- String related to Home Menu -->
@@ -32,4 +32,6 @@
     <!-- String related to Product Menu -->
     <string name="buy">Buy</string>
 
+    <!-- String related to Purchase History Menu -->
+    <string name="purchase_history">Purchase History</string>
 </resources>

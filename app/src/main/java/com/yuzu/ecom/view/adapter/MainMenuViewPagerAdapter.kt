@@ -2,6 +2,7 @@ package com.yuzu.ecom.view.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.yuzu.ecom.view.fragment.HistoryFragment
 import com.yuzu.ecom.view.fragment.HomeFragment
 
 /**
@@ -14,7 +15,7 @@ class MainMenuViewPagerAdapter(fragment: Fragment, private val titles: Array<Str
             0 -> return HomeFragment()
             1 -> return HomeFragment()
             2 -> return HomeFragment()
-            3 -> return HomeFragment()
+            3 -> return HistoryFragment()
         }
         return HomeFragment()
     }

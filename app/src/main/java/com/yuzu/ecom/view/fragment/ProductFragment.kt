@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,6 +47,7 @@ class ProductFragment: Fragment() {
         loveOnClick()
         backOnClick()
         shareOnClick()
+        buyOnClick()
         onBackPressed()
 
         viewModel.product(arguments)
@@ -56,6 +58,7 @@ class ProductFragment: Fragment() {
         Glide.with(requireContext()).load(data.imageUrl).into(binding.photo)
         binding.item.text = data.title
         binding.desc.text = data.description
+        binding.price.text = data.price
         viewModel.love(data.loved, binding.unlove, binding.loved)
     }
 
@@ -78,6 +81,13 @@ class ProductFragment: Fragment() {
             val app_url = viewModel.product.value!!.imageUrl
             shareIntent.putExtra(Intent.EXTRA_TEXT, app_url)
             startActivity(Intent.createChooser(shareIntent, "Share via"))
+        }
+    }
+
+    private fun buyOnClick() {
+        binding.buy.setOnClickListener {
+            viewModel.insertHist()
+            Toast.makeText(context, "Add to puchase history", Toast.LENGTH_LONG).show()
         }
     }
 

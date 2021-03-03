@@ -29,4 +29,7 @@
     <!-- String related to Home Menu -->
     <string name="search_icon">Search Icon</string>
 
+    <!-- String related to Product Menu -->
+    <string name="buy">Buy</string>
+
 </resources>

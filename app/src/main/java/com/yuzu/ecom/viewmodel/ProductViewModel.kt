@@ -7,8 +7,12 @@ import android.widget.ImageView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.yuzu.ecom.ECommerceDemoApp
+import com.yuzu.ecom.model.data.HistoryData
 import com.yuzu.ecom.model.data.ProductPromoData
+import com.yuzu.ecom.model.repository.HistoryDBRepository
 import com.yuzu.ecom.utils.ARGUMENT_PRODUCT_DATA
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by Yustar Pramudana on 03/03/2021
@@ -18,8 +22,16 @@ class ProductViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "Product"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    private val compositeDisposable = CompositeDisposable()
+    private val historyDBRepository: HistoryDBRepository
+
     var product = MutableLiveData<ProductPromoData>()
     fun productDataLive(): LiveData<ProductPromoData> = product
+
+    init {
+        val appComponent = ECommerceDemoApp.instance.getAppComponent()
+        historyDBRepository = appComponent.historyDBRepository()
+    }
 
     fun product(arguments: Bundle?) {
         if (arguments != null) {
@@ -51,5 +63,10 @@ class ProductViewModel(app: Application): AndroidViewModel(app) {
         } else {
             loved.visibility = View.VISIBLE
         }
+    }
+
+    fun insertHist() {
+        historyDBRepository.insert(HistoryData(product.value!!.id, product.value!!.imageUrl, product.value!!.title, product.value!!.description, product.value!!.price,
+            product.value!!.loved))
     }
 }

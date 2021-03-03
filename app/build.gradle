@@ -106,4 +106,7 @@ dependencies {
         transitive(true)
     }
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    //Paging Library
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 }

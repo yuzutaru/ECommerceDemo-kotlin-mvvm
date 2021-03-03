@@ -18,6 +18,7 @@ import com.yuzu.ecom.model.Response
 import com.yuzu.ecom.model.Status
 import com.yuzu.ecom.model.data.Home
 import com.yuzu.ecom.model.data.HomeData
+import com.yuzu.ecom.model.data.ProductPromoData
 import com.yuzu.ecom.model.repository.HomeRepository
 import com.yuzu.ecom.model.repository.ProductDBRepository
 import com.yuzu.ecom.utils.ARGUMENT_PRODUCT_DATA
@@ -33,7 +34,7 @@ import io.reactivex.schedulers.Schedulers
 
 class HomeViewModel(app: Application): AndroidViewModel(app) {
     private val LOG_TAG = "Home"
-    var loading: MutableLiveData<Boolean> = MutableLiveData(false)
+    var loading = MutableLiveData(false)
 
     private val compositeDisposable = CompositeDisposable()
     private val homeRepository: HomeRepository
@@ -44,6 +45,9 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
 
     private val homeData = MutableLiveData<HomeData>()
     fun homeResDataLive(): LiveData<HomeData> = homeData
+
+    var product = MutableLiveData<ProductPromoData>()
+    fun productDataLive(): LiveData<ProductPromoData> = product
 
     init {
         val appComponent = ECommerceDemoApp.instance.getAppComponent()

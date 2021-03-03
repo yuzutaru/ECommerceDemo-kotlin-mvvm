@@ -53,7 +53,7 @@
                         <ImageView
                             android:id="@+id/photo"
                             android:layout_width="match_parent"
-                            android:layout_height="120dp"
+                            android:layout_height="200dp"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_photo"
                             app:layout_constraintTop_toTopOf="parent"
@@ -68,7 +68,7 @@
                             android:src="@drawable/ic_back"
                             android:layout_centerVertical="true"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parentparent"/>
+                            app:layout_constraintStart_toStartOf="parent"/>
 
                         <ImageView
                             android:id="@+id/share"
@@ -88,7 +88,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:text="barang"
+                    android:text="@={viewModel.product.title}"
                     app:layout_constraintTop_toBottomOf="@+id/header"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="20dp"/>
@@ -100,7 +100,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black"
                     android:textSize="11sp"
-                    android:text="Released July 15, 1983, the Nintendo Entertainment System (NES) is an 8-bit video game console released by Nintendo in North America, South America, Europe, Asia, Oceania and Africa and was Nintendo's first home video game console released outside Japan. In Japan, it is known as the Family Computer (or Famicom, as it is commonly abbreviated). Selling 61.91 million units worldwide, the NES helped revitalize the video game industry following the video game crash of 1983 and set the standard for subsequent consoles in everything from game design to business practices. The NES was the first console for which the manufacturer openly courted third-party developers. Many of Nintendo's most iconic franchises, such as The Legend of Zelda and Metroid were started on the NES. Nintendo continued to repair Famicom consoles in Japan until October 31, 2007, attributing the decision to discontinue support to an increasing shortage of the necessary parts.[4][5][6]Nintendo released a software-emulation-based version of the Nintendo Entertainment System on November 10, 2016. Called the NES Classic Edition, it is a dedicated console that comes with a single controller and 30 preloaded games.[7]"
+                    android:text="@={viewModel.product.description}"
                     app:layout_constraintTop_toBottomOf="@+id/item"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

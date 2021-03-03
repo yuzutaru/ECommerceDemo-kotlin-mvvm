@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.yuzu.ecom.R
 import com.yuzu.ecom.databinding.FragmentProductBinding
+import com.yuzu.ecom.model.data.ProductPromoData
 import com.yuzu.ecom.view.activity.MainActivity
 import com.yuzu.ecom.viewmodel.ProductViewModel
 
 /**
  * Created by Yustar Pramudana on 03/03/2021
  */
+
 class ProductFragment: Fragment() {
     private val LOG_TAG = "Login"
     private lateinit var binding: FragmentProductBinding
@@ -38,7 +41,23 @@ class ProductFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        backOnClick()
         onBackPressed()
+
+        viewModel.product(arguments)
+        viewModel.productDataLive().observe(viewLifecycleOwner, { setProduct(it) })
+    }
+
+    private fun setProduct(data: ProductPromoData) {
+        Glide.with(requireContext()).load(data.imageUrl).into(binding.photo)
+        binding.item.text = data.title
+        binding.desc.text = data.description
+    }
+
+    private fun backOnClick() {
+        binding.back.setOnClickListener {
+            (activity as MainActivity).replaceFragment(R.id.main_content, MainMenuFragment(), null)
+        }
     }
 
     private fun onBackPressed() {

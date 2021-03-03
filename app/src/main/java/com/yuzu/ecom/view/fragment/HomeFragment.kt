@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +16,11 @@ import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.yuzu.ecom.R
 import com.yuzu.ecom.databinding.FragmentHomeBinding
 import com.yuzu.ecom.model.data.HomeData
+import com.yuzu.ecom.model.data.ProductPromoData
+import com.yuzu.ecom.utils.ARGUMENT_PRODUCT_DATA
 import com.yuzu.ecom.utils.GOOGLE_REQUEST_ID_TOKEN
 import com.yuzu.ecom.view.activity.LoginActivity
 import com.yuzu.ecom.view.activity.MainActivity
@@ -69,6 +73,7 @@ class HomeFragment: Fragment() {
         viewModel.home()
         viewModel.homeDataLive().observe(viewLifecycleOwner, {viewModel.homeRes(requireContext(), resources, it)})
         viewModel.homeResDataLive().observe(viewLifecycleOwner, {setRecycler(it)})
+        viewModel.productDataLive().observe(viewLifecycleOwner, {product(it)})
     }
 
     private fun setRecycler(data: HomeData) {
@@ -83,9 +88,14 @@ class HomeFragment: Fragment() {
         binding.categoryRecyclerView.layoutManager = horizontalLayout
 
         //set product recycler
-        val productAdapter = ProductAdapter(data)
+        val productAdapter = ProductAdapter(viewModel, data)
         binding.productRecyclerView.adapter = productAdapter
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun product(data: ProductPromoData) {
+        val bundle = bundleOf(ARGUMENT_PRODUCT_DATA to data)
+        (activity as MainActivity).replaceFragment(R.id.main_content, ProductFragment(), bundle)
     }
 
     private fun onBackPressed() {

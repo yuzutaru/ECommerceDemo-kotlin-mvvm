@@ -136,8 +136,8 @@ class HomeViewModel(app: Application): AndroidViewModel(app) {
                 Log.d(LOG_TAG, "seach onFocus")
 
                 if (homeData.value != null) {
-                    val bundle = bundleOf(ARGUMENT_PRODUCT_DATA to homeData.value!!.productPromo)
-                    activity.replaceFragment(R.id.main_content, SearchFragment(), bundle)
+                    //val bundle = bundleOf(ARGUMENT_PRODUCT_DATA to homeData.value!!.productPromo)
+                    activity.replaceFragment(R.id.main_content, SearchFragment(), null)
                 }
 
             } else {

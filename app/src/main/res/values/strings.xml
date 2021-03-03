@@ -6,6 +6,7 @@
     <!-- String Error Message -->
     <string name="no_connection">No internet connection</string>
     <string name="general_error">General error</string>
+    <string name="error_message">Error !! Please connect to the Internet.</string>
 
     <!-- String related to Login Menu -->
     <string name="login">Login</string>

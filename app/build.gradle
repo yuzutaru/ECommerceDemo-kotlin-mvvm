@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.yuzu.ecom"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -102,11 +102,17 @@ dependencies {
     implementation "com.google.firebase:firebase-auth-ktx"
 
     //glide
-    implementation ("com.github.bumptech.glide:glide:$glide_version@aar") {
+    implementation("com.github.bumptech.glide:glide:$glide_version@aar") {
         transitive(true)
     }
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     //Paging Library
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    //Skeleton loading EudyContreras
+    implementation "com.github.EudyContreras:Skeleton-Bones:$skeleton_version"
+
+    // Circle Image View hdodenhof
+    implementation "de.hdodenhof:circleimageview:$circleImageView_viersion"
 }

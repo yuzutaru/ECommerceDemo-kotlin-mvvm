@@ -95,6 +95,7 @@ class LoginFragment: Fragment() {
 
     private fun gLoginOnClick() {
         binding.google.setOnClickListener {
+            viewModel.loading.value = true
             var signInIntent: Intent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, 101)
         }

@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.yuzu.ecom.ECommerceDemoApp
 import com.yuzu.ecom.R
@@ -32,7 +33,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by Yustar Pramudana on 02/03/2021
  */
 
-class HomeViewModel(app: Application): AndroidViewModel(app) {
+class HomeViewModel: ViewModel() {
     private val LOG_TAG = "Home"
     var loading = MutableLiveData(false)
 

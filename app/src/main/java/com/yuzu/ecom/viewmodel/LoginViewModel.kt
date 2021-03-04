@@ -7,6 +7,7 @@ import android.view.KeyEvent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.facebook.*
 import com.facebook.login.LoginBehavior
 import com.facebook.login.LoginManager
@@ -23,7 +24,7 @@ import java.util.*
  * Created by Yustar Pramudana on 28/02/2021
  */
 
-class LoginViewModel(app: Application): AndroidViewModel(app) {
+class LoginViewModel: ViewModel() {
     private val LOG_TAG = "Login"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -69,6 +70,7 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
     }
 
     fun isFbLoggedIn(activity: LoginActivity) {
+        loading.value = true
         if (Profile.getCurrentProfile() != null && AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logOut()
         }
@@ -139,6 +141,8 @@ class LoginViewModel(app: Application): AndroidViewModel(app) {
                     isLoginSuccess.value = false
                 }
             }
+
+        loading.value = false
     }
 
     fun goToMainMenu(activity: LoginActivity, isLoginSuccess: Boolean) {

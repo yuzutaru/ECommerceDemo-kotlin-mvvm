@@ -13,9 +13,8 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class HistoryData(
-    @PrimaryKey
     @SerializedName("id")
-    var id: String,
+    var id: String? = null,
     @SerializedName("imageUrl")
     var imageUrl: String? = null,
     @SerializedName("title")
@@ -26,4 +25,7 @@ data class HistoryData(
     var price: String? = null,
     @SerializedName("loved")
     var loved: Int? = null
-): Parcelable
+): Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    var historyId: Int = 0
+}

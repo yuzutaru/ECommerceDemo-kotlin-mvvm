@@ -64,6 +64,17 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //MockWebServer
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:$mockWebServer_version") {
+        exclude group: "com.squareup.okhttp3"
+    }
+
+    //mockk
+    testImplementation "io.mockk:mockk:$mockK_version"
+
+    //mockito
+    testImplementation "org.mockito:mockito-inline:$mockito_version"
+
     //Multidex
     implementation "androidx.multidex:multidex:$multidex_version"
 

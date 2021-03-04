@@ -2,6 +2,8 @@ package com.yuzu.ecom.view.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.yuzu.ecom.view.fragment.ChartFragment
+import com.yuzu.ecom.view.fragment.FeedFragment
 import com.yuzu.ecom.view.fragment.HistoryFragment
 import com.yuzu.ecom.view.fragment.HomeFragment
 
@@ -13,8 +15,8 @@ class MainMenuViewPagerAdapter(fragment: Fragment, private val titles: Array<Str
     override fun createFragment(position: Int): Fragment {
         when (position) {
             0 -> return HomeFragment()
-            1 -> return HomeFragment()
-            2 -> return HomeFragment()
+            1 -> return FeedFragment()
+            2 -> return ChartFragment()
             3 -> return HistoryFragment()
         }
         return HomeFragment()

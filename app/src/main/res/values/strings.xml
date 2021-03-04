@@ -34,4 +34,7 @@
 
     <!-- String related to Purchase History Menu -->
     <string name="purchase_history">Purchase History</string>
+
+    <string name="feed_menu">Feed Menu</string>
+    <string name="chart_menu">Chart Menu</string>
 </resources>

@@ -35,7 +35,7 @@ import javax.net.ssl.X509TrustManager
  */
 
 @Module
-class AppModule(private val app: Application) {
+open class AppModule(private val app: Application) {
     @Provides
     fun app(): Application {
         return app
@@ -93,7 +93,7 @@ class AppModule(private val app: Application) {
     //Home Api
     @Provides
     @Singleton
-    fun homeApi(): HomeApi {
+    open fun homeApi(): HomeApi {
         return Retrofit.Builder()
             .client(provideOkHttpClient())
             .baseUrl(BASE_URL)
@@ -105,7 +105,7 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    fun homeRepository(api: HomeApi): HomeRepository {
+    open fun homeRepository(api: HomeApi): HomeRepository {
         return HomeRepositoryImpl(api)
     }
 

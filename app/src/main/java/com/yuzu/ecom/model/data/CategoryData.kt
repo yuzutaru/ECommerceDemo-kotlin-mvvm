@@ -6,10 +6,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CategoryData(
-    @SerializedName("imageUrl")
-    var imageUrl: String? = null,
     @SerializedName("id")
     var id: Int? = null,
+    @SerializedName("imageUrl")
+    var imageUrl: String? = null,
     @SerializedName("name")
     var name: String? = null
 ): Parcelable

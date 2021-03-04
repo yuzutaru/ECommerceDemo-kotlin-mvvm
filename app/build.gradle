@@ -43,6 +43,10 @@ android {
         viewBinding = true
     }
 
+    kapt {
+        generateStubs = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -50,6 +54,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+}
+
+android.applicationVariants.all {
+    def aptOutputDir = new File(buildDir, "generated/source/kapt/${it.unitTestVariant.dirName}")
+    it.unitTestVariant.addJavaSourceFoldersToModel(aptOutputDir)
 }
 
 dependencies {
@@ -63,6 +72,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //  to build TestComponent in test/ folder
+    kaptTest "com.google.dagger:dagger-compiler:$dagger2_version"
 
     //MockWebServer
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:$mockWebServer_version") {

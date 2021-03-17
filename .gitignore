@@ -21,3 +21,5 @@
 .cxx
 
 local.properties
+
+/app/src/main/java/com/yuzu/ecom/utils/Config.kt

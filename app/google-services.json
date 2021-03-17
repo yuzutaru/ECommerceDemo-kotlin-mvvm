@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "835994216944",
+    "project_id": "e-commerce-demo-306317",
+    "storage_bucket": "e-commerce-demo-306317.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835994216944:android:983dabe7b5a24d58bb1535",
+        "android_client_info": {
+          "package_name": "com.yuzu.ecom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835994216944-82008586jn6dotsf08hmqb4gmd6pcrhk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yuzu.ecom",
+            "certificate_hash": "6856567df2e96cd94587c4915df75b00bce9fa04"
+          }
+        },
+        {
+          "client_id": "835994216944-9itcrgoont0atm8s63a1cm6d81ghkjel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6itWbN0s5bhqbpyAqnAeqFyA7yM6SkaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835994216944-9itcrgoont0atm8s63a1cm6d81ghkjel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

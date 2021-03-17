@@ -22,5 +22,6 @@
 
 local.properties
 
+/app/schemas
 /app/src/main/java/com/yuzu/ecom/utils/Config.kt
 /app/google-services.json
